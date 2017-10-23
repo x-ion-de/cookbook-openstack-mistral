@@ -46,8 +46,6 @@ ruby_block 'smoke test for mistral' do # ~FC014
       puts "workflow_id:#{workflow_id}:"
 
       # Start the workflow.
-      # FIXME openstack_command rips apart arguments containing space and
-      #       passes the bits on as individual arguments -> FAIL
       puts openstack_command('mistral', ['execution-create', 'my_workflow', '{"names": ["John", "Mistral", "Ivan", "Crystal"]}'], env)
 
       execution_list = openstack_command('mistral', 'execution-list', env)
