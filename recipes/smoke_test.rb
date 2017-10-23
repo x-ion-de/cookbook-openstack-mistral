@@ -33,8 +33,9 @@ cookbook_file workflow_file do
 end
 
 # NOTE: This has to be done in a ruby_block so it gets executed at execution
-#       time and not compile time (when nova does not yet exist).
-ruby_block 'smoke test for mistral' do
+#       time and not compile time (when mistral does not yet exist).
+# Ignore FC014 (we don't want to extract this long ruby_block to a library)
+ruby_block 'smoke test for mistral' do # ~FC014
   block do
     begin
       env = openstack_command_env(admin_user, admin_project, 'Default', 'Default')
