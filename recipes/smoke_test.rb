@@ -32,11 +32,18 @@ cookbook_file workflow_file do
   mode 0444
 end
 
+admin_user = node['openstack']['identity']['admin_user']
+admin_project = node['openstack']['identity']['admin_project']
+
 # NOTE: This has to be done in a ruby_block so it gets executed at execution
 #       time and not compile time (when mistral does not yet exist).
 # Ignore FC014 (we don't want to extract this long ruby_block to a library)
 ruby_block 'smoke test for mistral' do # ~FC014
   block do
+    # Skip if we find a trace of an earlier smoke test run
+    env = openstack_command_env(admin_user, admin_project, 'Default', 'Default')
+    next if openstack_command('mistral', 'task-list -cID -cName', env).include? 'task1'
+
     begin
       env = openstack_command_env(admin_user, admin_project, 'Default', 'Default')
       puts openstack_command('mistral', "workflow-create #{workflow_file}", env)
@@ -69,6 +76,4 @@ ruby_block 'smoke test for mistral' do # ~FC014
       puts openstack_command('mistral', "action-execution-list #{task_id}", env)
     end
   end
-  # FIXME: replace with better test
-  not_if { ::File.exist?(workflow_file) }
 end
