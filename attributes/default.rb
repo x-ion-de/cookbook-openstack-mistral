@@ -20,3 +20,7 @@ default['openstack']['workflowv2']['service_role'] = 'service'
   default['openstack']['endpoints'][ep_type]['workflowv2']['path'] = '/v2'
   default['openstack']['endpoints'][ep_type]['workflowv2']['port'] = 8989
 end
+
+# Needed for haproxy
+default['openstack']['bind_service']['all']['workflow']['host'] = '127.0.0.1'
+default['openstack']['bind_service']['all']['workflow']['port'] = 8989
