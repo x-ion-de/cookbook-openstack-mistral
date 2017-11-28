@@ -1,6 +1,6 @@
-default['openstack']['common']['services']['workflowv2'] = 'mistral'
+default['openstack']['common']['services']['workflow'] = 'mistral'
 
-default['openstack']['workflowv2']['syslog']['use'] = false
+default['openstack']['workflow']['syslog']['use'] = false
 
 # Versions for OpenStack release
 # Ocata:
@@ -9,14 +9,21 @@ default['openstack']['workflowv2']['syslog']['use'] = false
 # Pike:
 default['openstack-workflow']['mistral_server_version'] = '5.0.0'
 
-default['openstack']['workflowv2']['service_role'] = 'service'
+default['openstack']['workflow']['service_role'] = 'service'
 
 # ************** OpenStack Key Manager Endpoints ************************
 
 # The OpenStack Key Manager (Mistral) endpoints
 %w(public internal admin).each do |ep_type|
-  default['openstack']['endpoints'][ep_type]['workflowv2']['scheme'] = 'http'
-  default['openstack']['endpoints'][ep_type]['workflowv2']['host'] = '127.0.0.1'
-  default['openstack']['endpoints'][ep_type]['workflowv2']['path'] = '/v2'
-  default['openstack']['endpoints'][ep_type]['workflowv2']['port'] = 8989
+  default['openstack']['endpoints'][ep_type]['workflow']['scheme'] = 'http'
+  default['openstack']['endpoints'][ep_type]['workflow']['host'] = '127.0.0.1'
+  default['openstack']['endpoints'][ep_type]['workflow']['path'] = '/v2'
+  default['openstack']['endpoints'][ep_type]['workflow']['port'] = 8989
 end
+
+# Needed to define host and port for service (Mistral) to bind to
+default['openstack']['bind_service']['all']['workflow']['host'] = '127.0.0.1'
+default['openstack']['bind_service']['all']['workflow']['port'] = 8989
+
+default['openstack']['workflow']['service_name'] = 'mistral'
+default['openstack']['workflow']['service_type'] = 'workflowv2'

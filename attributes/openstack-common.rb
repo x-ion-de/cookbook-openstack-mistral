@@ -1,7 +1,7 @@
 ###################################################################
 # Assign default mq attributes
 # (copied from openstack-common attributes/messaging.rb to avoid having to add
-# workflowv2 to that cookbook's services list)
+# workflow to that cookbook's services list)
 ###################################################################
 
 rabbit_defaults = {
@@ -23,25 +23,25 @@ rabbit_defaults = {
   kombu_reconnect_timeout: node['openstack']['mq']['rabbitmq']['kombu_reconnect_timeout'],
 }
 
-default['openstack']['mq']['workflowv2']['service_type'] = node['openstack']['mq']['service_type']
+default['openstack']['mq']['workflow']['service_type'] = node['openstack']['mq']['service_type']
 
-default['openstack']['mq']['workflowv2']['durable_queues'] =
+default['openstack']['mq']['workflow']['durable_queues'] =
   node['openstack']['mq']['durable_queues']
-default['openstack']['mq']['workflowv2']['auto_delete'] =
+default['openstack']['mq']['workflow']['auto_delete'] =
   node['openstack']['mq']['auto_delete']
 
 rabbit_defaults.each do |key, val|
-  default['openstack']['mq']['workflowv2']['rabbit'][key.to_s] = val
+  default['openstack']['mq']['workflow']['rabbit'][key.to_s] = val
 end
 
 ###################################################################
 # Database used by the OpenStack service
 # (copied from openstack-common attributes/database.rb to avoid having to add
-# workflowv2 to that cookbook (node['openstack']['common']['services'] in
+# workflow to that cookbook (node['openstack']['common']['services'] in
 # attributes/default.rb)
 ###################################################################
 
-service = 'workflowv2'
+service = 'workflow'
 project = 'mistral'
 
 default['openstack']['db'][service]['service_type'] = node['openstack']['db']['service_type']

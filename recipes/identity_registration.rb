@@ -22,9 +22,9 @@ identity_admin_endpoint = admin_endpoint 'identity'
 auth_url = ::URI.decode identity_admin_endpoint.to_s
 
 interfaces = {
-  public: { url: public_endpoint('workflowv2') },
-  internal: { url: internal_endpoint('workflowv2') },
-  admin: { url: admin_endpoint('workflowv2') },
+  public: { url: public_endpoint('workflow') },
+  internal: { url: internal_endpoint('workflow') },
+  admin: { url: admin_endpoint('workflow') },
 }
 
 admin_user = node['openstack']['identity']['admin_user']
@@ -41,25 +41,27 @@ connection_params = {
 }
 
 service_user =
-  node['openstack']['workflowv2']['conf']['keystone_authtoken']['username']
-service_pass = get_password 'service', 'openstack-workflowv2'
+  node['openstack']['workflow']['conf']['keystone_authtoken']['username']
+service_pass = get_password 'service', 'openstack-workflow'
 service_project =
-  node['openstack']['workflowv2']['conf']['keystone_authtoken']['project_name']
+  node['openstack']['workflow']['conf']['keystone_authtoken']['project_name']
 service_domain_name =
-  node['openstack']['workflowv2']['conf']['keystone_authtoken']['user_domain_name']
-service_role = node['openstack']['workflowv2']['service_role']
+  node['openstack']['workflow']['conf']['keystone_authtoken']['user_domain_name']
+service_role = node['openstack']['workflow']['service_role']
+service_type = node['openstack']['workflow']['service_type']
+service_name = node['openstack']['workflow']['service_name']
 region = node['openstack']['region']
 
 # Register Key Manager Services
 openstack_service 'mistral' do
-  type 'workflowv2'
+  type service_type
   connection_params connection_params
 end
 
 interfaces.each do |interface, res|
   # Register NFV Orchestration Endpoints
-  openstack_endpoint 'workflowv2' do
-    service_name 'mistral'
+  openstack_endpoint service_type do
+    service_name service_name
     interface interface.to_s
     url res[:url].to_s
     region region

@@ -1,6 +1,6 @@
-default['openstack']['workflowv2']['conf'].tap do |conf|
+default['openstack']['workflow']['conf'].tap do |conf|
   # [DEFAULT] section
-  if node['openstack']['workflowv2']['syslog']['use']
+  if node['openstack']['workflow']['syslog']['use']
     conf['DEFAULT']['log_config'] = '/etc/openstack/logging.conf'
   else
     conf['DEFAULT']['log_file'] = '/var/log/mistral/mistral.log'
