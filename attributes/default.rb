@@ -21,7 +21,7 @@ default['openstack']['workflow']['service_role'] = 'service'
   default['openstack']['endpoints'][ep_type]['workflow']['port'] = 8989
 end
 
-# Needed for haproxy
+# Needed to define host and port for service (Mistral) to bind to
 default['openstack']['bind_service']['all']['workflow']['host'] = '127.0.0.1'
 default['openstack']['bind_service']['all']['workflow']['port'] = 8989
 
