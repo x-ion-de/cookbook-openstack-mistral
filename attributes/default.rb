@@ -5,9 +5,9 @@ default['openstack']['workflow']['syslog']['use'] = false
 # Versions for OpenStack release
 # Ocata:
 # https://releases.openstack.org/teams/mistral.html
-# default['openstack-workflow']['mistral_server_version'] = '4.0.0'
+default['openstack-workflow']['mistral_server_version'] = '4.0.0'
 # Pike:
-default['openstack-workflow']['mistral_server_version'] = '5.0.0'
+# default['openstack-workflow']['mistral_server_version'] = '5.0.0'
 
 default['openstack']['workflow']['service_role'] = 'service'
 
