@@ -80,6 +80,10 @@ execute 'disable_deprecated_options' do
   only_if "grep '^admin_token' #{mistral_conf_file}"
 end
 
+execute 'mistral-db-manage_upgrade_head' do
+  command "mistral-db-manage --config-file #{mistral_conf_file} upgrade head"
+end
+
 execute 'mistral-db-manage_populate' do
   command "mistral-db-manage --config-file #{mistral_conf_file} populate"
 end
