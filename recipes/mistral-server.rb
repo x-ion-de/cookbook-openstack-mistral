@@ -66,15 +66,6 @@ template mistral_conf_file do
   )
 end
 
-# Use of the auth_admin_prefix, auth_host, auth_port, auth_protocol,
-# identity_uri, admin_token, admin_user, admin_password, and admin_tenant_name
-# configuration options was deprecated in the Mitaka release in favor of an
-# auth_plugin and its related options.
-execute 'disable_deprecated_options' do
-  command "sed -i 's/^a/#/' #{mistral_conf_file}"
-  only_if "grep '^admin_token' #{mistral_conf_file}"
-end
-
 execute 'mistral-db-manage_upgrade_head' do
   command "mistral-db-manage --config-file #{mistral_conf_file} upgrade head"
 end
