@@ -66,11 +66,6 @@ template mistral_conf_file do
   )
 end
 
-# FIXME: Looks like a race; without sleeping, mistral-db-manage fails
-execute 'sleep' do
-  command 'sleep 5'
-end
-
 # Use of the auth_admin_prefix, auth_host, auth_port, auth_protocol,
 # identity_uri, admin_token, admin_user, admin_password, and admin_tenant_name
 # configuration options was deprecated in the Mitaka release in favor of an
