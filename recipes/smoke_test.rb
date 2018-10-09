@@ -32,6 +32,23 @@ cookbook_file workflow_file do
   mode 0444
 end
 
+#------------------------------------------------------------------------------
+# XXX This ugly work-around prevents a SQL error when creating workflows.
+#     A similar fix may be required in some production environments.
+execute 'restart_mysqld' do
+  command 'systemctl restart mysql'
+  action :nothing
+end
+
+file "/etc/mysql/conf.d/mistral.cnf" do
+  content "[mysqld]\nbinlog_format = mixed\n"
+  mode 0644
+  owner 'root'
+  group 'root'
+  notifies :run, 'execute[restart_mysqld]', :immediately
+end
+#------------------------------------------------------------------------------
+
 admin_user = node['openstack']['identity']['admin_user']
 admin_project = node['openstack']['identity']['admin_project']
 
